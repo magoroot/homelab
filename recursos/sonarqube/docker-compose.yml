@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   sonarqube:
     image: ${SONARQUBE_IMAGE}
@@ -10,11 +8,16 @@ services:
       SONAR_JDBC_USERNAME: ${POSTGRES_USER}
       SONAR_JDBC_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: ${TZ}
-      # Opcional: tunar memória dependendo dos recursos da VM Docker
-      SONAR_WEB_JAVAOPTS: "-Xms512m -Xmx2048m"
+      # Ajuste de JVM se precisar:
+      # SONAR_WEB_JAVAOPTS: "-Xms512m -Xmx2048m"
     ports:
       - "${SONARQUBE_PORT}:9000"
     volumes:
-      - ./sonarqube/data:/opt/sonarqube/data
-      - ./sonarqube/extensions:/opt/sonarqube/extensions
-      - ./sonarqube/logs:/opt/sonarqube/logs
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
